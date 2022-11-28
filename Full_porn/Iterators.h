@@ -1,7 +1,9 @@
 #pragma once
 #include "DynamicArray.h"
 #include "LinkedList.h"
-template<typename V>
+
+
+template<typename V>//тупо структурки, чтобы объединяли конст и не конст итераторы, реализации прописаны в Linked List и DynamicArray
 struct ListIterators {
 	using iterator = typename LinkedList<V>::iterator;
 	using const_iterator = typename LinkedList<V>::const_iterator;

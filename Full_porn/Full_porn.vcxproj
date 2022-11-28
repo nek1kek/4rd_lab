@@ -18,6 +18,28 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="for_graphics_on_python.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ArraySequence.h" />
+    <ClInclude Include="Command.h" />
+    <ClInclude Include="DynamicArray.h" />
+    <ClInclude Include="exception.h" />
+    <ClInclude Include="Interface.h" />
+    <ClInclude Include="ISorter.h" />
+    <ClInclude Include="Iterators.h" />
+    <ClInclude Include="LinkedList.h" />
+    <ClInclude Include="ListSequence.h" />
+    <ClInclude Include="random.h" />
+    <ClInclude Include="Sequence.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="graphics.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -131,24 +153,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\PORNO1\PORNO1\ArraySequence.h" />
-    <ClInclude Include="..\..\PORNO1\PORNO1\Command.h" />
-    <ClInclude Include="..\..\PORNO1\PORNO1\DynamicArray.h" />
-    <ClInclude Include="..\..\PORNO1\PORNO1\exception.h" />
-    <ClInclude Include="..\..\PORNO1\PORNO1\Interface.h" />
-    <ClInclude Include="..\..\PORNO1\PORNO1\ISorter.h" />
-    <ClInclude Include="..\..\PORNO1\PORNO1\Iterators.h" />
-    <ClInclude Include="..\..\PORNO1\PORNO1\LinkedList.h" />
-    <ClInclude Include="..\..\PORNO1\PORNO1\ListSequence.h" />
-    <ClInclude Include="..\..\PORNO1\PORNO1\random.h" />
-    <ClInclude Include="..\..\PORNO1\PORNO1\Sequence.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\PORNO1\PORNO1\main.cpp">
-      <AdditionalModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">opengl32.lib glut32.lib glu32.lib</AdditionalModuleDependencies>
-    </ClCompile>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -16,7 +16,7 @@
 
 #define it(T, _It) typename Sequence<T, _It>::iterator
 
-namespace Auxillary {//спецификация вспомогательных функций
+namespace Auxillary {//спецификация  функций(вспомогательных)
 	template<typename T>
 	struct sum {
 		static int sum_d(T a) {
@@ -150,6 +150,7 @@ public:
 //shakersort
 
 template<typename T, class _Iterators>//ДВОЕТОЧИЕ ТИПО ТУТ ФУНКЦИИ ОПИСЫВАЕМ У ЭТИХ 5 НАСОЛЕДОВАННЫХ КЛАССОВ
+
 
 void Shaker_Sort<T, _Iterators>::sort(typename Sequence<T, _Iterators>::iterator begin, typename Sequence<T, _Iterators>::iterator end, bool cmp(T, T)) {
 	while (begin != end) {

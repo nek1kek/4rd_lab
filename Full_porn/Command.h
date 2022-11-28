@@ -4,9 +4,8 @@
 #include "ISorter.h"
 #include <string>
 #include <vector>
-#include <thread>
-#include <future>
-//#include "graphics.h"
+#include <fstream>
+
 using namespace Traits;
 
 
@@ -20,21 +19,26 @@ public:
 	}
 };
 
+
+
+//ДА НАЧНЕТСЯ СПЕЦИФИКАЦИЯ ПО ПЕРВОЙ ЦИФЕРКЕ ХА-ХА-ХА
+
 template<typename T, class _It>
-struct command<Help, T, _It> {
-public:
+	struct command<Help, T, _It> {
+	public:
 	static void execute() {
 		cout << "\n\n[System] Набор возможных команд:\n({} - обязательные параметры, [] - необязательные)\n\n";
-		cout << "\tinput {-r} [-s] {-n}\t-отвечает за создание последовательности";
+		cout << "\tinput {-r} [-s] {-n} {-t}\t-отвечает за создание последовательности";
 		cout << "\n\t\t-r сгенерировать случайную последовательность(число)";
 		cout << "\n\t\t-s указать тип последовательности (array, list)";
 		cout << "\n\t\t-n указать длину последовательности (число) - взаимоисклчающее с -r\n\n";
-		cout << "\tprint\t- вывод последовательности, созданной ранее";
+		cout << "\n\t\t-t тип создаваемых элементов (string, float, integer)\n\n";
+		cout << "\tprint\t- вывод последовательности, созданной ранее\n";
 		cout << "\tsort {-a} [-s] [-f] [-p]\t-отвечает за сортировку последовательности";
 		cout << "\n\t\t-a тип сортировки (quick_sort, merge_sort, binary_insertion_sort, bitonic_sort, shaker_sort)";
 		cout << "\n\t\t-s указывает начало участка сортировки (число)";
 		cout << "\n\t\t-f указывает конец участка сортировки (число)";
-		cout << "\n\t\t-p параметр сортировки\n\n";
+		cout << "\n\t\t-p параметр сортировки (inc, r_inc, len, r_len, sum, r_sum, odd, r_odd, even, r_even)\n\n";
 		cout << "\ttime {-a} [-s]\t-замер времени работы сортировок";
 		cout << "\n\t\t-a тип сортировки (quick_sort, merge_sort, binary_insertion_sort, bitonic_sort, shaker_sort) (возможно несколько)";
 		cout << "\n\t\t-s указать тип последовательности (array, list)\n\n";
@@ -48,27 +52,55 @@ public:
 template<typename T, class _It>
 struct command<Graphics, T, _It> {
 private:
+	//статиком можно пользоваться не создавая объект класса
 	static void checktime(ISorter<T, _It>* srt) {
 		size_t number_of_clocking = 0;
-		for (size_t i = 0; i < 20; i++) {
-			//arr_x[i] = -1;
-			//arr_y[i] = -1;
-		}
+		ArraySequence<double> arr_x(20, 0);
+		ArraySequence<double> arr_y(20, 0);
 		for (size_t num = (srt->GetType() == BitonicSort ? 64 : 1000); num < (srt->GetType() == BitonicSort ? 35000 : 30000); num += (srt->GetType() == BitonicSort ? num : srt->GetType() == ShakerSort ? 3000 : 1500)) {
 			double x = 0;
 			x = timing<T, _It>::get_time(num, srt);
 			cout << num << " " << x << endl;
 			cout << "\n=======\n";
-			//arr_x[number_of_clocking] = num;
-			//arr_y[number_of_clocking] = x;
+			arr_x[number_of_clocking] = num;
+			arr_y[number_of_clocking] = x;
 			number_of_clocking++;
 		}
+		get_graphics_python(arr_x, arr_y,srt);
 
 	}
+
+	static void get_graphics_python(ArraySequence<double>&arr_x, ArraySequence<double>&arr_y, ISorter<T, _It>* srt) {//была проблема решили тем, что передали тупо по ссылке))
+
+		// создание и открытие текстового файла
+		ofstream MyFile("for_graphics_on_python.txt");
+		
+		for (int i = 0; i < 20; i++)//просто для себя может их тут записывать в txt и потом питончик))
+			{
+			// Запись в файл
+				MyFile << arr_x[i] << '\t';
+			}
+		MyFile << endl;
+		for (int i = 0; i < 20; i++)
+			{
+				MyFile << arr_y[i] << '\t';
+			}
+		MyFile << endl;
+		MyFile << srt->GetType();
+		
+		// Закрытие файла
+		MyFile.close();
+
+		int result = system("python graphics.py");
+
+	}
+
+
+
 public:
 	static Sequence<T, _It>* execute( ArraySequence<Argument<string>>* argList) {
 		ISorter<T, _It>* srt = nullptr;
-		for (size_t i = 0; i < argList->GetLength(); i++) {
+		for (size_t i = 0; i < argList->GetLength(); i++) {//юзанем цикл, чтобы проверить только ли флаги а,s юзаются 
 			Argument<string> cur = argList->Get(i);
 			string val = cur.Getvalue();
 			switch (cur.GetFlag())
@@ -105,7 +137,6 @@ public:
 		}
 		if (!srt) throw SetException(NoRequiredArgument);
 		checktime(srt);
-		//init();
 	}
 };
 
@@ -152,9 +183,6 @@ public:
 				}
 				else {
 					throw SetException(IncorrectValue);
-				}
-				if (sorts_list.GetLength() > std::thread::hardware_concurrency()) {
-					throw SetException(TooManySort);
 				}
 				sorts_list.Append(srt);
 			}
@@ -205,12 +233,11 @@ public:
 		}
 		cin.clear();
 		while (cin.get() != '\n');
-		//cin.get();
 		return vec;
 	}
 };
 
-ostream& operator <<(ostream& os, const string& x) {
+ostream& operator <<(ostream& os, const string& x) {//ИМЕНННО ЕСЛИ СОРТИРОВКА СТРОК
 	os << '\"';
 	for (auto i : x) {
 		os << i;
@@ -227,13 +254,12 @@ public:
 		ArraySequence<T>* vec = new ArraySequence<T>(n, T());
 
 		for (typename ArrayIterators<T>::iterator i = vec->begin(); i != vec->end(); i++) {
-			T cur = T();
+			T cur = T();//конструктор по умолчанию: int a = int() -> типо конструктор что вернет 0
 			cin >> cur;
 			*i = cur;
 		}
 		cin.clear();
 		while (cin.get() != '\n');
-		//cin.get();
 		return vec;
 	}
 };
@@ -277,8 +303,8 @@ public:
 		if (vec == nullptr) {
 			throw SetException(EmptySequence);
 		}
-		int st = 1;
-		int fin = vec->GetLength();
+		int st = 1;//откуда 
+		int fin = vec->GetLength();//и до куда нужно будет добраться
 		bool (*sort_type)(T, T) = cmp__up(T);
 		ISorter<T, _It>* srt = nullptr;
 		for (int i = 0; i < argList->GetLength(); i++) {
@@ -287,7 +313,7 @@ public:
 			switch (cur.GetFlag()) {
 			case 'a':
 				if (val == "quick_sort") {
-					srt = new Quick_Sort<T, _It>;
+					srt = new Quick_Sort<T, _It>;//НУ ЭТО НЕ ОБЪЕКТ А КЛАСС, ТАК КАК ЭТОТ КЛАСС ИМЕЕТ ЛИШЬ МЕТОДЫ, И ЕГО КРУТО ЕБАТЬ ПЕРЕДАТЬ
 				}
 				else if (val == "merge_sort") {
 					srt = new Merge_Sort<T, _It>;

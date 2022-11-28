@@ -1,5 +1,6 @@
 #include "Sequence.h"
 
+
 template<typename T>
 class ListSequence : public Sequence<T, ListIterators<T>>
 {
@@ -40,7 +41,6 @@ public:
 	void InsertAt(T, iterator) override;
 	void del_item(iterator) override;
 	iterator find(iterator, iterator, T) override;
-	Sequence<T, ListIterators<T>>* SplitSeq(bool(T)) override;
 	bool IsSubSeq(Sequence<T, ListIterators<T>>*) override;
 	bool Equals(Sequence<T, ListIterators<T>>*) override;
 	Sequence<T, ListIterators<T>>* Concat(Sequence<T, ListIterators<T>>*) override;
@@ -138,14 +138,7 @@ typename ListSequence<T>::iterator ListSequence<T>::find(iterator start, iterato
 	return this->list->find(start, end, item);
 }
 
-template<typename T>
-Sequence<T, ListIterators<T>>* ListSequence<T>::SplitSeq(bool (cmp)(T)) {
-	LinkedList<T>* x = this->list->SplitList(cmp);
-	ListSequence<T>* resseq = new ListSequence<T>;
-	delete resseq->list;
-	resseq->list = x;
-	return resseq;
-}
+
 
 template<typename T>
 bool ListSequence<T>::IsSubSeq(Sequence<T, ListIterators<T>>* seq) {

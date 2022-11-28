@@ -6,11 +6,12 @@ enum except_type { MemoryAllocateError, IndexOutOfRange, SizeBelowZero, Negative
 	NoRequiredArgument, UnknownFlag, UnknownCommand, MutuallyExclusive, TooManySort, EmptySequence};
 #include<iostream>
 
+
 class SetException {
 private:
 	except_type id;
 public:
-	SetException(except_type id) { this->id = id; }
+	SetException(except_type id) { this->id = id; }//конструктор
 	const char* message() {
 		if (id == MemoryAllocateError) return "Cannot allocate memory";
 		if (id == IndexOutOfRange) return "Subscirpt index out of range";

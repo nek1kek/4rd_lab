@@ -7,6 +7,7 @@ struct random_unit {
 	}
 };
 
+
 template<>
 struct random_unit<int> {
 	static int generate() {

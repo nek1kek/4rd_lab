@@ -7,12 +7,13 @@ template<typename T, bool IsConst>
 class RandomAccessIterator;
 
 template<typename T>
-class DynamicArray;
+class DynamicArray;//создали нулевой класс,чтобы не выдавало ошибки
+
 
 template<typename V>
-struct ArrayIterators;
+struct ArrayIterators;//и нулевую сструктурку
 
-template<typename T>
+template<typename T>//расстояние  между итератормами
 size_t distance(typename DynamicArray<T>::iterator begin, typename DynamicArray<T>::iterator end) {
 	size_t res = 0;
 	while (begin != end) {
@@ -24,7 +25,7 @@ size_t distance(typename DynamicArray<T>::iterator begin, typename DynamicArray<
 
 template<typename T, bool IsConst>
 class RandomAccessIterator {
-	template<typename T> friend class DynamicArray;
+	template<typename T> friend class DynamicArray; //
 private:
 	size_t cur_pos = 0;
 	using type = std::conditional_t<IsConst, const T, T>;
@@ -92,14 +93,14 @@ template <class T>
 class DynamicArray
 {
 	template<typename T, bool V>
-	friend class RandomAccessIterator;
+	friend class RandomAccessIterator;//у него есть доступ к закрытым переменным класса DynamicArray
 private:
-	T* items = nullptr;
-	int size = 0;
-	size_t used_items = 0;
+	T* items = nullptr;//указатель на 1элемент
+	int size = 0;//сколько всего мест
+	size_t used_items = 0;//сколько уже заюзано места
 public:
 	//итератор
-	using iterator = RandomAccessIterator<T, false>;
+	using iterator = RandomAccessIterator<T, false>;//переобозначали и дали другие имена
 	using const_iterator = RandomAccessIterator<T, true>;
 	iterator begin() {
 		iterator iter(0, this);
@@ -141,7 +142,6 @@ public:
 	DynamicArray<T>* Concat(DynamicArray<T>*);
 	void del_item(iterator);
 	iterator find(iterator, iterator, T);
-	DynamicArray<T>* SplitArray(bool(T));
 	bool Equals(DynamicArray<T>*);
 	bool IsSubArr(DynamicArray<T>*);
 
@@ -161,7 +161,7 @@ DynamicArray<T>::DynamicArray() {
 template <class T>
 DynamicArray<T>::DynamicArray(size_t count, T fill) {
 	if (count < 0) throw SetException(SizeBelowZero);
-	items = new T[(count + 1) * 2];
+	items = new T[(count + 1) * 2];//формат обычного массива, количесвто чисел + в два раза больше на всякий случай
 	size = count * 2;
 	used_items = count;
 	for (int i = 0; i < count; i++) {
@@ -197,7 +197,8 @@ DynamicArray<T>::DynamicArray(std::initializer_list<T> list) : DynamicArray(list
 	}
 }
 
-//деконструктор
+
+//деструктор
 template <class T>
 DynamicArray<T>::~DynamicArray() {
 	delete[] this->items;
@@ -224,8 +225,8 @@ void DynamicArray<T>::Resize(int NewSize) {
 	}
 	try {
 		T* items_cur = new T[NewSize];
-		int cpy_num = (NewSize > size ? size : NewSize);
-		memcpy(items_cur, items, cpy_num * sizeof(T));
+		int cpy_num = (NewSize > size ? size : NewSize);//чтобы скопировать 
+		memcpy(items_cur, items, cpy_num * sizeof(T));//cpy_num = copy_num
 		delete[] items;
 		items = items_cur;
 		size = NewSize;
@@ -299,7 +300,7 @@ void DynamicArray<T>::del_item(iterator it) {
 	if (it == end()) {
 		throw SetException(IndexOutOfRange);
 	}
-	memmove(items + distance<T>(begin(), it), items + distance<T>(begin(), it) + 1, (used_items - 1 - distance<T>(begin(), it)) * sizeof(T));
+	memmove(items + distance<T>(begin(), it), items + distance<T>(begin(), it) + 1, (used_items - 1 - distance<T>(begin(), it)) * sizeof(T));//указатель куда, указатель откуда, и сколько
 	used_items--;
 	if (used_items <= (size / 2)) {
 		this->Resize(this->size / 2);
@@ -327,18 +328,7 @@ void DynamicArray<T>::Set(int index, T value) {
 	items[index] = value;
 }
 
-template <class T>
-DynamicArray<T>* DynamicArray<T>::SplitArray(bool cmp(T)) {
-	DynamicArray<T>* res = new DynamicArray<T>;
-	for (int i = 0; i < this->used_items; i++) {
-		if (cmp(this->Get(i))) {
-			res->Append(this->Get(i));
-			this->del_item(this->begin() + i);
-			i--;
-		}
-	}
-	return res;
-}
+
 
 template <class T>
 bool DynamicArray<T>::Equals(DynamicArray<T>* seq) {

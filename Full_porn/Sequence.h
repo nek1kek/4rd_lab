@@ -1,9 +1,17 @@
 #pragma once
 #include "Iterators.h"
 
+
+/*
+в этом файле мы создаем класс 
+
+
+*/
+
+
 enum SequenceType { ArrayType, ListType, ZeroType };
 
-template<typename T, class _Iterators>
+template<typename T, class _Iterators>//T - тип, список или массив
 class Sequence
 {
 public:
@@ -26,7 +34,6 @@ public:
 	virtual void InsertAt(T item, iterator) = 0;
 	virtual bool IsSubSeq(Sequence<T, _Iterators>* seq) = 0;
 	virtual bool Equals(Sequence<T, _Iterators>* seq) = 0;
-	virtual Sequence<T, _Iterators>* SplitSeq(bool(T)) = 0;
 	virtual Sequence<T, _Iterators>* Concat(Sequence<T, _Iterators>* seq) = 0;
 	virtual SequenceType GetType() = 0;
 };

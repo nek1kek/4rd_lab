@@ -1,6 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
- #include "exception.h"
+#include "exception.h"
 #include "Sequence.h"
 #include "ArraySequence.h"
 #include "ListSequence.h"
@@ -10,7 +10,7 @@
 #include <list>
 #include <chrono>
 #include "Command.h"
-#include <stdlib.h>
+#include "stdlib.h"
 
 
 using namespace Traits;
@@ -20,17 +20,17 @@ template<typename T>
 ArraySequence<Argument<T>>* _MakeArgumentList(string s, bool canBeExclusive) {//парсер строки
 	ArraySequence<Argument<T>>* res = new ArraySequence<Argument<T>>;
 	string restricted = "!-=+*&^%$#";
-	size_t current = s.find('-', 0);
+	size_t current = s.find('-', 0);//возвращает номер элемента с которого начинается подстрока
 	while (current != -1) {
 		if (current == -1) break;
-		if (current + 1 >= s.size() || s[current + 2] != ' ') throw SetException(IncorrectInputFormat);
+		if (current + 1 >= s.size() || s[current + 2] != ' ') throw SetException(IncorrectInputFormat);//просто проверка, что парвильно  ли введен флаг
 		char flag = s[current + 1];
 		current += 2;
-		while (current < s.size() && s[current] == ' ') {
+		while (current < s.size() && s[current] == ' ') {//СТРАННАЯ ХУЙНЯ НАМ ЖЕ 1 РАЗ НАДО ПРОПУСТИТЬ ПРОБЕЛ ТИПО -r 8, в других случаях кидай ошибку
 			if (s[current] != ' ') throw SetException(IncorrectInputFormat);
 			current++;
 		}
-		if (current >= s.size()) throw SetException(IncorrectInputFormat);
+		if (current >= s.size()) throw SetException(IncorrectInputFormat);//если выше за значени строки то понятно, что чувак ввел говно
 		string arg_value;
 		while (current < s.size() && s[current] != ' ') {
 			if (restricted.find(s[current]) != -1) throw SetException(IncorrectInputFormat);
@@ -50,6 +50,7 @@ ArraySequence<Argument<T>>* _MakeArgumentList(string s, bool canBeExclusive) {//
 	}
 	return res;
 }
+
 
 _CmdType _GetCommand(string s) {
 	string res;
@@ -81,12 +82,12 @@ _CmdType _GetCommand(string s) {
 }
 
 template<typename T, class _It>
-ArraySequence<Argument<string>>* _CmdListener(Sequence<T, _It>* vec) {//основной слушаетль комманд
+ArraySequence<Argument<string>>* _CmdListener(Sequence<T, _It>* vec) {//основной слушатель комманд
 	string s;
 	cout << "\n[System] Enter command:\n>> ";
 	getline(cin, s);
 	try {
-		_CmdType command_number = _GetCommand(s);
+		_CmdType command_number = _GetCommand(s);//тут он считал основную команду и дал ей тип в соответствии и enum _СmdType
 		ArraySequence<Argument<string>>* argList = _MakeArgumentList<string>(s, command_number == Time);
 		while (command_number != Input && command_number != Exit) {//тут считывает комманды и выполняет их покуда не захочет выйти или пересоздать последовательность
 			vec = cmd<T, _It>(command_number, vec, argList);
@@ -113,10 +114,10 @@ ArraySequence<Argument<string>>* _CmdListener(Sequence<T, _It>* vec) {//основной
 bool _StartMenuPoint() {//только вход в программу и ввод последовательности больше не вызывается при работе с этой последовательностью
 	//сюда в любом случае попадаем из _CmdListener, но если надо создавать новую хуйню, то пересоздаём 
 	//и заходим в бесконечный цикл работы с этой последовательностью, но если в нём ввели input,
-	//то запускаем функцию заново c ввода.
-	cout << "\n\n\tПривет! Для ознакомления со списком команд введи help.\n\n";
+	//то запускаем функцию заново c ввода.//только одна последовательность может быть
+	cout << "\n\nПривет! Для ознакомления со списком команд введи help.\n\n";
 
-	ArraySequence<int>* nullvec = nullptr;//только одна последовательность
+	ArraySequence<int>* nullvec = nullptr;// указатель на последовательность
 	ArraySequence<Argument<string>>* argList = nullptr;//список аргументов функции
 	try {
 		argList = _CmdListener<int>(nullvec);
@@ -235,7 +236,6 @@ bool _StartMenuPoint() {//только вход в программу и ввод последовательности боль
 			}
 		}
 		else {
-			throw SetException(IncorrectValue);
 		}
 	}
 }

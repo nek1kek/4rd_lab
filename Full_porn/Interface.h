@@ -3,8 +3,11 @@
 #include "ISorter.h"
 using namespace std;
 
-typedef enum _CmdType { Input, Output, Sort, Exit, None, Time, Graphics, Help };
 
+typedef enum _CmdType { Input, Output, Sort, Exit, None, Time, Graphics, Help };
+//В C++ typedef (сокращенно от «type definition», «определение типа») – это ключевое слово,
+//которое создает псевдоним для существующего типа данных.
+//короче создали _CmdType
 
 
 template<_CmdType Type, typename T, class _It>
@@ -18,6 +21,7 @@ private:
 	_ArgumentType value;
 	char flag;
 public:
+	//кострукторы
 	Argument() {
 		this->flag = char();
 		this->value = _ArgumentType();
@@ -26,10 +30,14 @@ public:
 		this->flag = flag;
 		this->value = value;
 	}
+	//деструкторы
 	~Argument() {}
+
+	// проверял этой фигней, что все работает
 	void print() {
 		std::cout << std::endl << '-' << this->flag << " " << this->value << std::endl;
 	}
+	//методы
 	char GetFlag() {
 		return this->flag;
 	}
@@ -53,14 +61,14 @@ bool operator ==(const Argument<_ArgumentType>& cur, const Argument<_ArgumentTyp
 	return (cur.flag == other.flag && cur.value == other.value);
 }
 
-namespace Traits {
+namespace Traits {//определяет хороший или плохой тип
 	template<typename T>
 	struct check_T {
 		static char get_type() {
 			return false;
 		}
 	};
-	template<>
+	template<>//начинается спецификация шаблонов - приоритет отдается им сначала
 	struct check_T<int> {
 		static bool get_type() {
 			return true;
@@ -194,6 +202,8 @@ namespace Traits {
 			return average / 10;
 		}
 	};
+
+
 	template<typename T>
 	struct timing<T, ArrayIterators<T>> {
 	public:

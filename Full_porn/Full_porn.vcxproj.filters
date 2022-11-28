@@ -15,42 +15,52 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\PORNO1\PORNO1\ArraySequence.h">
+    <Text Include="for_graphics_on_python.txt">
+      <Filter>Исходные файлы</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ArraySequence.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\PORNO1\PORNO1\Command.h">
+    <ClInclude Include="Command.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\PORNO1\PORNO1\DynamicArray.h">
+    <ClInclude Include="DynamicArray.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\PORNO1\PORNO1\exception.h">
+    <ClInclude Include="exception.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\PORNO1\PORNO1\Interface.h">
+    <ClInclude Include="Interface.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\PORNO1\PORNO1\ISorter.h">
+    <ClInclude Include="ISorter.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\PORNO1\PORNO1\Iterators.h">
+    <ClInclude Include="Iterators.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\PORNO1\PORNO1\LinkedList.h">
+    <ClInclude Include="LinkedList.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\PORNO1\PORNO1\ListSequence.h">
+    <ClInclude Include="ListSequence.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\PORNO1\PORNO1\random.h">
+    <ClInclude Include="random.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\PORNO1\PORNO1\Sequence.h">
+    <ClInclude Include="Sequence.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\PORNO1\PORNO1\main.cpp">
+    <None Include="graphics.py">
+      <Filter>Исходные файлы</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

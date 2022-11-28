@@ -43,7 +43,6 @@ public:
 	void Set(int, T) override;
 	void InsertAt(T, iterator) override;
 	void del_item(iterator) override;
-	Sequence<T, ArrayIterators<T>>* SplitSeq(bool(T)) override;
 	Sequence<T, ArrayIterators<T>>* Concat(Sequence<T, ArrayIterators<T>>*) override;
 	iterator find(iterator, iterator, T) override;
 	bool IsSubSeq(Sequence<T, ArrayIterators<T>>*) override;
@@ -74,6 +73,7 @@ template<typename T>
 ArraySequence<T>::ArraySequence(Sequence<T, ArrayIterators<T>>* arr) {
 	this->arr = new DynamicArray<T>(((ArraySequence<T>*)arr)->arr);
 }
+
 
 template<typename T>
 ArraySequence<T>::ArraySequence(std::initializer_list<T> list) {
@@ -138,14 +138,7 @@ void ArraySequence<T>::del_item(iterator it) {
 	this->arr->del_item(it);
 }
 
-template<typename T>
-Sequence<T, ArrayIterators<T>>* ArraySequence<T>::SplitSeq(bool cmp(T)) {
-	DynamicArray<T>* x = this->arr->SplitArray(cmp);
-	ArraySequence<T>* resseq = new ArraySequence<T>;
-	delete resseq->arr;
-	resseq->arr = x;
-	return resseq;
-}
+
 
 template<typename T>
 Sequence<T, ArrayIterators<T>>* ArraySequence<T>::Concat(Sequence<T, ArrayIterators<T>>* seq) {
