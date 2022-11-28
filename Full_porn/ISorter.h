@@ -148,12 +148,19 @@ public:
 
 
 //shakersort
-
+/*
+http://algolab.valemak.com/cocktail
+Худшая	O(n2)
+Средняя	O(n2)
+Лучшая	O(n)
+Общая	O(n)
+Сложность по памяти:
+Дополнительная	O(1)
+Средняя	O(n2)
+*/
 template<typename T, class _Iterators>//ДВОЕТОЧИЕ ТИПО ТУТ ФУНКЦИИ ОПИСЫВАЕМ У ЭТИХ 5 НАСОЛЕДОВАННЫХ КЛАССОВ
-
-
 void Shaker_Sort<T, _Iterators>::sort(typename Sequence<T, _Iterators>::iterator begin, typename Sequence<T, _Iterators>::iterator end, bool cmp(T, T)) {
-	while (begin != end) {
+	while (begin != end) {//то есть могут
 		bool flag = false;
 		for (typename Sequence<T, _Iterators>::iterator i = begin; (i+1) != end; i++) {
 			if (!cmp(*i, *(i + 1))) {
@@ -180,7 +187,18 @@ SortType Shaker_Sort<T, _Iterators>::GetType() {
 	return ShakerSort;
 }
 
-//binary insertion sort
+/*binary insertion sort
+http://www.algolab.valemak.com/insertion-binary-search
+
+Сложность по времени:
+Худшая	O(n2 / 2)
+Средняя	O(n2 / 4)
+Лучшая	O(n)
+
+Сложность по памяти:
+Общая	O(n)
+Дополнительная	O(1)
+*/
 
 template<typename T, class _Iterators>
 void Binary_Insertion_Sort<T, _Iterators>::sort(typename Sequence<T, _Iterators>::iterator begin, typename Sequence<T, _Iterators>::iterator end, bool cmp(T, T)) {
@@ -196,7 +214,7 @@ void Binary_Insertion_Sort<T, _Iterators>::sort(typename Sequence<T, _Iterators>
 			int mid = (left + right) / 2;
 			bool leftcheck = cmp(*(begin + mid), key);
 			bool rightcheck = mid + 1 >= i || cmp(key, *(begin + mid + 1));
-			if (leftcheck && rightcheck) {
+			if (leftcheck && rightcheck) {//вот и бинарный поиск
 				pos = mid + 1;
 			}
 			if (leftcheck) {
@@ -209,10 +227,10 @@ void Binary_Insertion_Sort<T, _Iterators>::sort(typename Sequence<T, _Iterators>
 				throw SetException(IncorrectComparator);
 			}
 		}
-		for (int j = i; j > pos; j--) {
+		for (int j = i; j > pos; j--) {//двигаем все направо
 			*(begin + j) = *(begin + j - 1);
 		}
-		*(begin + pos) = key;
+		*(begin + pos) = key;//ебать вставляем
 	}
 	return;
 }
@@ -221,9 +239,25 @@ SortType Binary_Insertion_Sort<T, _Iterators>::GetType() {
 	return BinaryInsertionSort;
 }
 
+
+/*
+http://algolab.valemak.com/merge-simple
+
+Сложность по времени:
+Худшая	O(n log n)
+Средняя	O(n log n)
+Лучшая	O(n log n)
+
+сделано две, потому что на списке быстрее работы, так как вставка сделана быстрее
+
+Сложность по памяти:
+Общая	O(n)
+Дополнительная	O(n)
+*/
+
 template<typename T, class _Iterators>
 typename Sequence<T, _Iterators>::iterator& Merge_Sort<T, _Iterators>::sort1(typename Sequence<T, _Iterators>::iterator begin, typename Sequence<T, _Iterators>::iterator end, size_t length, bool cmp(T, T)) {
-	if (begin == (end - 1)) {
+	if (begin == (end - 1)) {//для списков
 		return begin;
 	}
 	size_t right_i = length;
@@ -302,6 +336,9 @@ void Merge_Sort<T, ArrayIterators<T>>::sort2(typename Sequence<T, ArrayIterators
 	return;
 }
 
+
+
+
 template<typename T, class _Iterators>
 SortType Merge_Sort<T, _Iterators>::GetType() {
 	return MergeSort;
@@ -318,13 +355,15 @@ SortType Merge_Sort<T, ArrayIterators<T>>::GetType() {
 template<typename T, class _Iterators>
 size_t Quick_Sort<T, _Iterators>::partition(typename Sequence<T, _Iterators>::iterator begin, typename Sequence<T, _Iterators>::iterator end, size_t length, bool cmp(T, T)) {
 	size_t mid = (length - 1) / 2;
+	//возьмем медианный из 1, среднего и последнего и поставим его в середину, слева маленький и справа наибольший
 	if (!cmp(*begin, *(begin + mid))) Auxillary::swap<T>(*begin, *(begin + mid));
 	if (!cmp(*begin, *(end - 1))) Auxillary::swap<T>(*begin, *(end-1));
 	if (!cmp(*(begin + mid), *(end-1))) Auxillary::swap<T>(*(end-1), *(begin + mid));
-	T pivot = *(begin + mid);
+	T pivot = *(begin + mid);// серединный элемент
 	size_t i = 0;
 	size_t high = length - 1;
 	size_t j = high;
+	//поставим слева все элементы меньше, справа те что больше
 	while (true) {
 		while (i <= high && cmp(*(begin + i), pivot) && *(begin + i) != pivot) i++;
 		while (j >= 0 && cmp(pivot, *(begin + j)) && *(begin + j) != pivot) j--;
@@ -342,6 +381,7 @@ void Quick_Sort<T, _Iterators>::sort(typename Sequence<T, _Iterators>::iterator 
 	size_t newpivot = partition(begin, end, length, cmp);
 	size_t leftindex = newpivot;
 	size_t rightindex = newpivot + 1;
+	// рекурсивно пройдемся
 	sort(begin, begin + leftindex + 1, leftindex, cmp);
 	sort(begin + rightindex, end, length - (leftindex + 1), cmp);
 
@@ -359,7 +399,9 @@ SortType Quick_Sort<T, _Iterators>::GetType() {
 }
 
 
-////bitonicsort
+//bitonicsort
+//https://pythobyte.com/bitonic-sort-python-28918/ жесть сортирует конечно,так как реализация странная
+//https://www.youtube.com/watch?v=32NLIL_6WJg битоническая последовательность и берем 1ый элемент и средний элмент + 1
 
 template<typename T, class _Iterators>
 void Bitonic_Sort<T, _Iterators>::bitonic_merge(typename Sequence<T, _Iterators>::iterator begin, typename Sequence<T, _Iterators>::iterator end, size_t length, bool cmp(T, T), bool reversed) {
@@ -381,8 +423,8 @@ void Bitonic_Sort<T, _Iterators>::sort(typename Sequence<T, _Iterators>::iterato
 	if (begin == (end - 1)) return;
 	size_t half = (length) / 2;
 	typename Sequence<T, _Iterators>::iterator half_it = begin + half;
-	sort(begin, half_it, half, cmp, false);
-	sort(half_it, end, length - (half), cmp, true);
+	sort(begin, half_it, half, cmp, false);//тут чтобы возрастала
+	sort(half_it, end, length - (half), cmp, true);//тут чтобы убывала
 	bitonic_merge(begin, end, length, cmp, reversed);
 }
 template<typename T, class _Iterators>
