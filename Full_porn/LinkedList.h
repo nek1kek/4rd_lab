@@ -80,7 +80,7 @@ public:
 		}
 	}
 
-	void push_back(T data) {//???????? это же в конец вставить???????//tail показывает на следующий после последнего - ИМЕЕТ ВНУТРИ СЕБЯ ПОЛНУЮ ХУЙНЮ, для итератора так сделал
+	void push_back(T data) {//tail показывает на следующий после последнего - ИМЕЕТ ВНУТРИ СЕБЯ ПОЛНУЮ ХУЙНЮ, для итератора так сделал
 		Item* cur;
 		try {
 			cur = new Item(data);
@@ -104,7 +104,7 @@ public:
 		size++;
 	}
 
-	void push(T data, Item* item) {//ВСТАВИТЬ ВМЕСТО НА МЕСТО N ЭЛЕМЕНТА, А ОСТАЛЬНЫЕ ПОДВИНУТЬ?
+	void push(T data, Item* item) {//ВСТАВИТЬ ВМЕСТО НА МЕСТО N ЭЛЕМЕНТА, А ОСТАЛЬНЫЕ ПОДВИНУТЬ
 
 		if (size == 0) {
 			push_back(data);
@@ -257,7 +257,7 @@ public:
 	LinkedList<T>* Concat(LinkedList<T>*);
 	void del_item(iterator&);
 	iterator find(iterator, iterator, T);
-	bool Equals(LinkedList<T>*);//?????????
+	bool Equals(LinkedList<T>*);
 	bool IsSubList(LinkedList<T>*);
 
 	//операторы
@@ -272,8 +272,8 @@ class BidirectionalIterator {
 	template<typename T> friend class LinkedList;
 	template<typename T, class _Iterators> friend class Merge_Sort;
 private:// тайпнейм нужен, чтобы мы могли создать item типа Item
-	using type = std::conditional_t<IsConst, const T, T>;//??
-	typename LinkedList<T>::Item* item = nullptr;//??
+	using type = std::conditional_t<IsConst, const T, T>;
+	typename LinkedList<T>::Item* item = nullptr;
 	LinkedList<T>* arr = nullptr;
 public:
 	BidirectionalIterator(typename LinkedList<T>::Item* item, LinkedList<T>* arr) : arr(arr) {

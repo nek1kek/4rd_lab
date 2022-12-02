@@ -9,7 +9,7 @@ SortType = dict(enumerate(['ShakerSort', 'BinaryInsertionSort', 'MergeSort', 'Qu
 type_of_sort = SortType[int(f.readline())]
 f.close()
 
-name_of_graphics = type_of_sort + ' by p4vel'  # there is will be name of group
+name_of_graphics = type_of_sort + ' by p4vel'  
 fig, ax = plt.subplots()
 ax.plot(
     arr_x,

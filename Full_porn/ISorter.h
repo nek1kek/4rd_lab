@@ -146,7 +146,7 @@ public:
 
 
 
-
+//туда сюда гоняет, меня с признаком cmp друг за другом, и ставя спереди наибольший элемент, и назад, ставя на первое наименьший и т.п.
 //shakersort
 /*
 http://algolab.valemak.com/cocktail
@@ -158,7 +158,7 @@ http://algolab.valemak.com/cocktail
 Дополнительная	O(1)
 Средняя	O(n2)
 */
-template<typename T, class _Iterators>//ДВОЕТОЧИЕ ТИПО ТУТ ФУНКЦИИ ОПИСЫВАЕМ У ЭТИХ 5 НАСОЛЕДОВАННЫХ КЛАССОВ
+template<typename T, class _Iterators>//ДВОЕТОЧИЕ ТИПО ТУТ ФУНКЦИИ ОПИСЫВАЕМ У ЭТИХ 5 НАСЛЕДОВАННЫХ КЛАССОВ
 void Shaker_Sort<T, _Iterators>::sort(typename Sequence<T, _Iterators>::iterator begin, typename Sequence<T, _Iterators>::iterator end, bool cmp(T, T)) {
 	while (begin != end) {//то есть могут
 		bool flag = false;
@@ -187,7 +187,10 @@ SortType Shaker_Sort<T, _Iterators>::GetType() {
 	return ShakerSort;
 }
 
-/*binary insertion sort
+
+//сортировка подмассивом с бинарным поиском для вставки
+//binary insertion sort 
+/*
 http://www.algolab.valemak.com/insertion-binary-search
 
 Сложность по времени:
@@ -240,6 +243,8 @@ SortType Binary_Insertion_Sort<T, _Iterators>::GetType() {
 }
 
 
+//массив разбиваем на подмассивы по 2, потом сортируем, потом хуячим массивы из 4, и т.д.
+//Merge_Sort
 /*
 http://algolab.valemak.com/merge-simple
 
@@ -400,8 +405,9 @@ SortType Quick_Sort<T, _Iterators>::GetType() {
 
 
 //bitonicsort
-//https://pythobyte.com/bitonic-sort-python-28918/ жесть сортирует конечно,так как реализация странная
-//https://www.youtube.com/watch?v=32NLIL_6WJg битоническая последовательность и берем 1ый элемент и средний элмент + 1
+/*https://pythobyte.com/bitonic-sort-python-28918/ жесть сортирует конечно,так как реализация странная
+https://www.youtube.com/watch?v=32NLIL_6WJg битоническая последовательность и берем 1ый элемент и средний элмент + 1
+*/
 
 template<typename T, class _Iterators>
 void Bitonic_Sort<T, _Iterators>::bitonic_merge(typename Sequence<T, _Iterators>::iterator begin, typename Sequence<T, _Iterators>::iterator end, size_t length, bool cmp(T, T), bool reversed) {

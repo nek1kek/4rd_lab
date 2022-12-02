@@ -26,7 +26,7 @@ ArraySequence<Argument<T>>* _MakeArgumentList(string s, bool canBeExclusive) {//
 		if (current + 1 >= s.size() || s[current + 2] != ' ') throw SetException(IncorrectInputFormat);//просто проверка, что парвильно  ли введен флаг
 		char flag = s[current + 1];
 		current += 2;
-		while (current < s.size() && s[current] == ' ') {//СТРАННАЯ ХУЙНЯ НАМ ЖЕ 1 РАЗ НАДО ПРОПУСТИТЬ ПРОБЕЛ ТИПО -r 8, в других случаях кидай ошибку
+		while (current < s.size() && s[current] == ' ') {
 			if (s[current] != ' ') throw SetException(IncorrectInputFormat);
 			current++;
 		}

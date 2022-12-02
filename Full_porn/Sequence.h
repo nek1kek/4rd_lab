@@ -2,12 +2,6 @@
 #include "Iterators.h"
 
 
-/*
-в этом файле мы создаем класс 
-
-
-*/
-
 
 enum SequenceType { ArrayType, ListType, ZeroType };
 

@@ -25,7 +25,7 @@ size_t distance(typename DynamicArray<T>::iterator begin, typename DynamicArray<
 
 template<typename T, bool IsConst>
 class RandomAccessIterator {
-	template<typename T> friend class DynamicArray; //
+	template<typename T> friend class DynamicArray; 
 private:
 	size_t cur_pos = 0;
 	using type = std::conditional_t<IsConst, const T, T>;
